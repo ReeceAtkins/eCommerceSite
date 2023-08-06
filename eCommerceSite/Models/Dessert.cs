@@ -23,7 +23,7 @@ namespace eCommerceSite.Models
         /// The sales price of the dessert
         /// </summary>
         [Range(0, 1000)]
-        public double price { get; set; }
+        public double Price { get; set; }
 
     }
 }
