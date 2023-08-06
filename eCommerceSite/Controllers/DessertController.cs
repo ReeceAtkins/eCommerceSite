@@ -19,12 +19,12 @@ namespace eCommerceSite.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Dessert dessert)
+        public async Task<IActionResult> Create(Dessert dessert)
         {
             if (ModelState.IsValid)
             {
-                _context.Desserts.Add(dessert); // prepares
-                _context.SaveChanges(); // executes pending inserts
+                _context.Desserts.Add(dessert);     // prepares
+                await _context.SaveChangesAsync(); // executes pending inserts
 
                 ViewData["Message"] = $"{dessert.Name} was added successfully";
                 
