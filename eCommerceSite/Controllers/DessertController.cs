@@ -45,5 +45,32 @@ namespace eCommerceSite.Controllers
 
             return View(dessert);
         }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            Dessert? dessertToEdit = await _context.Desserts.FindAsync(id);
+
+            if (dessertToEdit == null)
+            {
+                return NotFound(); // returns a 404 not found
+            }
+
+            return View(dessertToEdit);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Dessert dessertModel)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Desserts.Update(dessertModel);
+                await _context.SaveChangesAsync();
+
+                TempData["Message"] = $"{dessertModel.Name} was updated successfully!";
+                return RedirectToAction("Index");
+            }
+
+            return View(dessertModel);
+        }
     }
 }
