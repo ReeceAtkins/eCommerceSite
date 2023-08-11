@@ -55,7 +55,21 @@ namespace eCommerceSite.Controllers
                 return NotFound(); // returns a 404 not found
             }
 
-            return View();
+            return View(dessertToEdit);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Dessert dessertModel)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Desserts.Update(dessertModel);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Index");
+            }
+
+            return View(dessertModel);
         }
     }
 }
