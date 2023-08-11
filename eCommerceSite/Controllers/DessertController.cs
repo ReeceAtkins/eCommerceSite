@@ -45,5 +45,17 @@ namespace eCommerceSite.Controllers
 
             return View(dessert);
         }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            Dessert? dessertToEdit = await _context.Desserts.FindAsync(id);
+
+            if (dessertToEdit == null)
+            {
+                return NotFound(); // returns a 404 not found
+            }
+
+            return View();
+        }
     }
 }
