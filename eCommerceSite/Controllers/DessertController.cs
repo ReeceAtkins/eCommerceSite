@@ -66,6 +66,7 @@ namespace eCommerceSite.Controllers
                 _context.Desserts.Update(dessertModel);
                 await _context.SaveChangesAsync();
 
+                TempData["Message"] = $"{dessertModel.Name} was updated successfully!";
                 return RedirectToAction("Index");
             }
 
