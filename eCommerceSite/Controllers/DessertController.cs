@@ -72,5 +72,34 @@ namespace eCommerceSite.Controllers
 
             return View(dessertModel);
         }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            Dessert? dessertToDelete = await _context.Desserts.FindAsync(id);
+
+            if (dessertToDelete == null)
+            {
+                return NotFound();
+            }
+
+            return View(dessertToDelete);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            Dessert dessertToDelete = await _context.Desserts.FindAsync(id);
+
+            if (dessertToDelete != null)
+            {
+                _context.Remove(dessertToDelete);
+                await _context.SaveChangesAsync();
+                TempData["Message"] = $"{dessertToDelete.Name} was deleted successfully!";
+                return RedirectToAction("Index");
+            }
+
+            TempData["Message"] = "This game was already deleted";
+            return RedirectToAction("Index");
+        }
     }
 }
