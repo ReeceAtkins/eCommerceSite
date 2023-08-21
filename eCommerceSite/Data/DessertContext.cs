@@ -11,5 +11,7 @@ namespace eCommerceSite.Data
         }
 
         public DbSet<Dessert> Desserts { get; set; }
+
+        public DbSet<Member> Members { get; set; }
     }
 }
