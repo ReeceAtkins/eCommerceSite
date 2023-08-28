@@ -60,6 +60,7 @@ namespace eCommerceSite.Controllers
                 // If exists, send to hompage
                 if (m != null)
                 {
+                    HttpContext.Session.SetString("Email", loginModel.Email);
                     return RedirectToAction("Index", "Home");
                 }
 
