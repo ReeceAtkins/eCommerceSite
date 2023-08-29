@@ -44,8 +44,11 @@
                         }
                         else
                         {
-                            <li>
-                                <p>Hello @userEmail</p>
+                            <li class="nav-item">
+                                <p class="nav-link text-dark">Hello @userEmail</p>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Logout">Log out</a>
                             </li>
                         }
                     </ul>
