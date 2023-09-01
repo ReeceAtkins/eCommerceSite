@@ -21,6 +21,10 @@ namespace eCommerceSite.Controllers
 
             int currPage = id ?? 1; // Set currPage to id if it has a value, otherwise use 1
 
+            int totalNumOfProudcts = await _context.Desserts.CountAsync();
+            double maxNumPage = Math.Ceiling((double)totalNumOfProudcts / NumGamesToDisplayPerPage);
+            int lastPage = Convert.ToInt32(maxNumPage); // Rounding pages up, to next whole page
+
             // Get all desserts from DB
             //List<Dessert> desserts = await _context.Desserts.ToListAsync();
             List<Dessert> desserts = await (from dessert in _context.Desserts
@@ -28,8 +32,9 @@ namespace eCommerceSite.Controllers
                                            .Skip(NumGamesToDisplayPerPage * (currPage - PageOffset))
                                            .Take(NumGamesToDisplayPerPage)
                                            .ToListAsync();
-            // Show them on the page
-            return View(desserts);
+
+            DessertCatalogViewModel catalogModel = new(desserts, lastPage, currPage);
+            return View(catalogModel);
         }
 
         [HttpGet]
