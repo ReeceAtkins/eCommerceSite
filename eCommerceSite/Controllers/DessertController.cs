@@ -14,14 +14,27 @@ namespace eCommerceSite.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
+            const int NumGamesToDisplayPerPage = 3;
+            const int PageOffset = 1; // Need a page offset to use current page and figure out, num desserts per page
+
+            int currPage = id ?? 1; // Set currPage to id if it has a value, otherwise use 1
+
+            int totalNumOfProudcts = await _context.Desserts.CountAsync();
+            double maxNumPage = Math.Ceiling((double)totalNumOfProudcts / NumGamesToDisplayPerPage);
+            int lastPage = Convert.ToInt32(maxNumPage); // Rounding pages up, to next whole page
+
             // Get all desserts from DB
             //List<Dessert> desserts = await _context.Desserts.ToListAsync();
             List<Dessert> desserts = await (from dessert in _context.Desserts
-                                           select dessert).ToListAsync();
-            // Show them on the page
-            return View(desserts);
+                                           select dessert)
+                                           .Skip(NumGamesToDisplayPerPage * (currPage - PageOffset))
+                                           .Take(NumGamesToDisplayPerPage)
+                                           .ToListAsync();
+
+            DessertCatalogViewModel catalogModel = new(desserts, lastPage, currPage);
+            return View(catalogModel);
         }
 
         [HttpGet]
