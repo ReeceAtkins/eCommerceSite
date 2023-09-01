@@ -2,7 +2,6 @@
 {
     public class DessertCatalogViewModel
     {
-
         public DessertCatalogViewModel(List<Dessert> desserts, int lastPage, int currPage)
         {
             Desserts = desserts;
